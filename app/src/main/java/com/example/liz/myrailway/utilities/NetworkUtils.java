@@ -38,7 +38,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private final static String APPKEY = "a0860d470a2a1cede6b613b121959986";
 
-    final static String url = "http://apis.juhe.cn/train/s2s";//请求接口地址
+    final static String url = "http://apis.juhe.cn/train/s2swithprice";//请求接口地址
     final static String method = "Get";
 
 

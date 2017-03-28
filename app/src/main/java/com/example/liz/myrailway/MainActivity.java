@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.liz.myrailway.utilities.NetworkUtils;
-import com.example.liz.myrailway.utilities.OpenTrainJsonUtils;
+import com.example.liz.myrailway.utilities.OpenResultJson;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     }
     //button的点击事件方法
     public void buttonSearchOnClick(View view) {
-        Log.v("action","button has been clicked");
         stationToStationSearch();
     }
 
@@ -59,15 +56,25 @@ public class MainActivity extends AppCompatActivity {
     }
     public class trainQueryTask extends AsyncTask<URL,Void,String>{
         @Override
-        protected String doInBackground(URL... params) {
-            URL searchUrl = params[0];
-            String githubSearchResults = null;
+        protected String[] doInBackground(String... params) {
+            if (params.length == 0) {
+                return null;
+            }
+            String location = params[0];
+            String start = startEditText.getText().toString();
+            String end = endEditText.getText().toString();
+            String time = timeEditText.getText().toString();
+
+            URL searchUrl = NetworkUtils.buildUrl(start,end,time);
             try {
-                githubSearchResults = NetworkUtils.getJsonResult01(searchUrl);
+                String githubSearchResults = NetworkUtils.getJsonResult01(searchUrl);
+                String[] parsedTrainData = OpenResultJson.getSimpleTrainStringsFromJson(MainActivity.this, githubSearchResults);
+                return parsedTrainData;
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-            return githubSearchResults;
+
         }
 
         @Override
