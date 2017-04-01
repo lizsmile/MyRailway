@@ -12,16 +12,37 @@ import android.widget.TextView;
  */
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListViewHolder> {
+    //声明holder中view的数量
+    private String[] mTrainData;
+
     private int mNumberOfTrains;
-    final private ListItemClickListener mOnClickListner;
-    public interface ListItemClickListener{
-        void onListItemClick(int clickedItemIndex);
+    private final ResultAdapterOnclickHandler mClickHandler;
+    //接口负责接受点击的信息
+    public interface ResultAdapterOnclickHandler{
+        void onClick(String clickedItemIndex);
     }
     //构造器
-    public ResultAdapter(int numberOfTrains,ListItemClickListener listener){
-        mNumberOfTrains = numberOfTrains;
-        mOnClickListner = listener;
-        viewHolderCount = 0;
+    public ResultAdapter(ResultAdapterOnclickHandler clickHandler){
+        mClickHandler = clickHandler;
+    }
+    //viewholder类继承onclicklistener接口
+    public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView trainMember;
+        //构造器
+        public ListViewHolder(View view) {
+            super(view);
+            trainMember = (TextView) view.findViewById(R.id.train_item_member);
+            // 为view调用监听器
+            view.setOnClickListener(this);
+        }
+
+        //通过onclick方法将点击的信息传递给handler
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            String trainSingle = mTrainData[adapterPosition];
+            mClickHandler.onClick(trainSingle);
+        }
     }
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -37,30 +58,16 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListViewHo
     }
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
-        //Log.d(TAG, "#" + position);
-        holder.bind(position);
+        String trainForThisItem = mTrainData[position];
+        holder.trainMember.setText(trainForThisItem);
     }
     @Override
     public int getItemCount() {
-        return mNumberOfTrains;
+        if (null == mTrainData) return 0;
+        return mTrainData.length;
     }
-    class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView trainListItemView;
-        //构造器
-        public ListViewHolder(View view){
-            super(view);
-            trainListItemView = (TextView)itemView.findViewById(R.id.train_item_member);
-            viewHolderIndex = (TextView)itemView.findViewById(R.id.view_holder_instance);
-            view.setOnClickListener(this);
-        }
-        void bind(int listIndex){
-            trainListItemView.setText(String.valueOf(listIndex));
-        }
-
-        @Override
-        public void onClick(View v) {
-            int clickedPositon = getAdapterPosition();
-            mOnClickListner.onListItemClick(clickedPositon);
-        }
+    public void setTrainData(String[] trainData) {
+        mTrainData = trainData;
+        notifyDataSetChanged();
     }
 }

@@ -14,20 +14,20 @@ import java.net.HttpURLConnection;
  */
 
 public class OpenResultJson {
-    public static String[] getSimpleTrainStringsFromJson(Context context, String trainJsonStr) throws JSONException {
+    public static String[] getSimpleTrainStringsFromJson(String trainJsonStr) throws JSONException {
 
         //每一辆列车的信息是array里的一个元素
         final String TRAIN_LIST = "list";
 
         final String TRAIN_NO = "train_no";
         final String TRAIN_TYPE = "train_type";
-        final String START_STA = "start_staion";
+        final String START_STA = "start_station";
         final String START_STA_TYPE = "start_station_type";
         final String END_STA = "end_station";
         final String END_STA_TYPE = "end_station_type";
 
-        final String START_TIME = "leave_time";
-        final String END_TIME = "arrived_time";
+        final String START_TIME = "start_time";
+        final String END_TIME = "end_time";
         final String RUN_TIME = "run_time";
         final String PRICE_LIST = "price_list";
         final String PRICE_TYPE = "price_type";
@@ -36,7 +36,7 @@ public class OpenResultJson {
         final String OWM_MESSAGE_CODE = "cod";
 
         /* String array to hold each day's weather String */
-        String[] parsedTrainData = null;
+        String[] parsedTrainData;
 
         JSONObject TrainJson = new JSONObject(trainJsonStr);
 
@@ -55,8 +55,8 @@ public class OpenResultJson {
 //                    return null;
 //            }
 //        }
-
-        JSONArray trainArray = TrainJson.getJSONArray(TRAIN_LIST);
+        JSONObject resultObject = TrainJson.getJSONObject("result");
+        JSONArray trainArray = resultObject.getJSONArray(TRAIN_LIST);
 
         parsedTrainData = new String[trainArray.length()];
         //关于时间的语句，后面再写
@@ -87,9 +87,9 @@ public class OpenResultJson {
 //            dateTimeMillis = startDay + SunshineDateUtils.DAY_IN_MILLIS * i;
 //            date = SunshineDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
 
-            JSONObject mutiPrice = eachTrain.getJSONArray(PRICE_LIST).getJSONObject(10);
+            JSONObject mutiPrice = eachTrain.getJSONArray(PRICE_LIST).getJSONObject(0);
             priceType = mutiPrice.getString(PRICE_TYPE);
-            trainPrice = mutiPrice.getString(PRICE_TYPE);
+            trainPrice = mutiPrice.getString(TRAIN_PRICE);
 
             /*
              * Temperatures are sent by Open Weather Map in a child object called "temp".

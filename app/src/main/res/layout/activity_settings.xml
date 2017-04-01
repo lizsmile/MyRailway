@@ -2,6 +2,6 @@
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     android:name="com.example.liz.myrailway.SettingsFragment"
-    android:id="@+id/weather_settings_fragment"
+    android:id="@+id/activity_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
