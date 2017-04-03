@@ -19,8 +19,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //获取从resultActivity获取的信息
         if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                singleTrainString = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+            if (intentThatStartedThisActivity.hasExtra("detail")) {
+                singleTrainString = intentThatStartedThisActivity.getStringExtra("detail");
                 trainDisplay.setText(singleTrainString);
             }
         }

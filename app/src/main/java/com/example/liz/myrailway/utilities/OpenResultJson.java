@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.Arrays;
 
 /**
  * Created by lenovo on 2017/3/28.
@@ -66,7 +67,7 @@ public class OpenResultJson {
 
         int length = trainArray.length();
         for (int i = 0; i < length; i++) {
-            String trainNo,trainType,startSta,startStaType,endSta,endStaType,startTime,endTime,runTime,priceType,trainPrice;
+            String trainNo,trainType,startSta,startStaType,endSta,endStaType,startTime,endTime,runTime;
             //依次获取每列车的信息
             JSONObject eachTrain = trainArray.getJSONObject(i);
             trainNo = eachTrain.getString(TRAIN_NO);
@@ -79,26 +80,21 @@ public class OpenResultJson {
             endTime = eachTrain.getString(END_TIME);
             runTime = eachTrain.getString(RUN_TIME);
 
+            String[] priceType,trainPrice,priceGroup;
+            JSONArray mutiPrices = eachTrain.getJSONArray(PRICE_LIST);
+            int lengthp = mutiPrices.length();
+            priceType = new String[mutiPrices.length()];
+            trainPrice = new String[mutiPrices.length()];
+            priceGroup = new String[mutiPrices.length()];
+            for (int j = 0; j < lengthp; j++){
+                JSONObject mutiPrice = mutiPrices.getJSONObject(j);
+                priceType[j] = mutiPrice.getString(PRICE_TYPE);
+                trainPrice[j] = mutiPrice.getString(TRAIN_PRICE);
+                priceGroup[j] = "座位类型:"+priceType[j]+" 价格:"+trainPrice[j];
+            }
 
-            /*
-             * We ignore all the datetime values embedded in the JSON and assume that
-             * the values are returned in-order by day (which is not guaranteed to be correct).
-             */
-//            dateTimeMillis = startDay + SunshineDateUtils.DAY_IN_MILLIS * i;
-//            date = SunshineDateUtils.getFriendlyDateString(context, dateTimeMillis, false);
 
-            JSONObject mutiPrice = eachTrain.getJSONArray(PRICE_LIST).getJSONObject(0);
-            priceType = mutiPrice.getString(PRICE_TYPE);
-            trainPrice = mutiPrice.getString(TRAIN_PRICE);
-
-            /*
-             * Temperatures are sent by Open Weather Map in a child object called "temp".
-             *
-             * Editor's Note: Try not to name variables "temp" when working with temperature.
-             * It confuses everybody. Temp could easily mean any number of things, including
-             * temperature, temporary and is just a bad variable name.
-             */
-            parsedTrainData[i] = trainNo+trainType+startSta+startStaType+endSta+endStaType+startTime+endTime+runTime+priceType+trainPrice;
+            parsedTrainData[i] = "列车序号:"+trainNo+" 列车类型:"+trainType+"\n\n"+"起始站:"+startSta+" 起始站类型:"+"\n\n"+startStaType+"终点站:"+endSta+" 终点站类型:"+endStaType+"\n\n"+"发车时间:"+startTime+" 到站时间:"+endTime+" 行驶时间:"+runTime+"\n\n"+ Arrays.toString(priceGroup);
         }
 
         return parsedTrainData;

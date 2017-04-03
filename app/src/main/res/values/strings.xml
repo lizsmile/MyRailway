@@ -9,5 +9,7 @@
     <string name="lan_select_title">option</string>
     <string name="summary_off">Off</string>
     <string name="summary_on">On</string>
+    <string name="select_city">select city</string>
+    <string name="train_no">train no</string>
 </resources>
 

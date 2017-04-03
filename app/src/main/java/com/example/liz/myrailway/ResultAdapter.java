@@ -2,6 +2,7 @@ package com.example.liz.myrailway;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,13 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListViewHo
             // 为view调用监听器
             view.setOnClickListener(this);
         }
-
         //通过onclick方法将点击的信息传递给handler
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             String trainSingle = mTrainData[adapterPosition];
             mClickHandler.onClick(trainSingle);
+            Log.v("onclick","result adapter");
         }
     }
     @Override

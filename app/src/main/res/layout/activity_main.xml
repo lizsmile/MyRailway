@@ -45,7 +45,8 @@
         app:layout_constraintTop_toTopOf="@+id/textViewStart"
         android:layout_marginStart="32dp"
         app:layout_constraintLeft_toRightOf="@+id/textViewStart"
-        android:layout_marginLeft="32dp" />
+        android:layout_marginLeft="32dp"
+        android:focusable="false"/>
     <EditText
         android:layout_width="144dp"
         android:layout_height="50dp"
@@ -54,7 +55,8 @@
         android:id="@+id/editTextEnd"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextStart"
-        app:layout_constraintLeft_toLeftOf="@+id/editTextStart" />
+        app:layout_constraintLeft_toLeftOf="@+id/editTextStart"
+        android:focusable="false"/>
     <EditText
         android:layout_width="220dp"
         android:layout_height="50dp"
@@ -63,7 +65,8 @@
         android:id="@+id/editTextTime"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextEnd"
-        app:layout_constraintLeft_toLeftOf="@+id/editTextEnd" />
+        app:layout_constraintLeft_toLeftOf="@+id/editTextEnd"
+        android:focusable="false"/>
     <Button
         android:layout_width="61dp"
         android:layout_height="116dp"
@@ -73,10 +76,11 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:onClick="textSwitch"/>
 
     <Button
-        android:text="Search"
+        android:text="查询"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:id="@+id/buttonSearch"
@@ -92,7 +96,8 @@
         android:id="@+id/buttonNoOfTrain"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSearch"/>
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearch"
+        android:onClick="trainNoSearch"/>
 
     <Button
         android:text="火车票代售点查询"
@@ -101,7 +106,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonNoOfTrain"
         android:id="@+id/buttonBuying"
-        app:layout_constraintLeft_toLeftOf="@+id/buttonNoOfTrain"/>
+        app:layout_constraintLeft_toLeftOf="@+id/buttonNoOfTrain"
+        android:onClick="buyPointSearch"/>
 
     <Button
         android:text="列车站点查询"
@@ -110,6 +116,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonBuying"
         android:id="@+id/buttonTrainStation"
-        app:layout_constraintLeft_toLeftOf="@+id/buttonNoOfTrain"/>
+        app:layout_constraintLeft_toLeftOf="@+id/buttonNoOfTrain"
+        android:onClick="trainStationSearch"/>
 
 </android.support.constraint.ConstraintLayout>

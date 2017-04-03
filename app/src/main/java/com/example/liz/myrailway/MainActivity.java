@@ -1,13 +1,23 @@
 package com.example.liz.myrailway;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -15,11 +25,16 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Locale;
 
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
     EditText startEditText;
     EditText endEditText;
     EditText timeEditText;
+    ListView listView;
+    Calendar calendar = Calendar.getInstance();
     //Button searchButton;
 
     private static final String LIFECYCLE_CALLBACKS_TEXT_START = "callbacksStart";
@@ -60,6 +75,41 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        //点击日期编辑框的监听器
+        timeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(MainActivity.this,date,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        startEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectStartCityList();
+            }
+        });
+        endEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectEndCityList();
+            }
+        });
+    }
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener(){
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            calendar.set(Calendar.YEAR,year);
+            calendar.set(Calendar.MONTH,month);
+            calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+            updateTime();
+        }
+    };
+    //更新时间框的方法
+    private void updateTime(){
+        String myFormat = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(myFormat, Locale.CHINA);
+        timeEditText.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     //button的点击事件方法
@@ -71,6 +121,24 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("intent_start", start);
         intent.putExtra("intent_end", end);
         intent.putExtra("intent_time", time);
+        startActivity(intent);
+    }
+    public void textSwitch(View view){
+        String temp1 = startEditText.getText().toString();
+        String temp2 = endEditText.getText().toString();
+        startEditText.setText(temp2);
+        endEditText.setText(temp1);
+    }
+    public void trainNoSearch(View view){
+        Intent intent = new Intent(this,TrainNoSearchActivity.class);
+        startActivity(intent);
+    }
+    public void buyPointSearch(View view){
+        Intent intent = new Intent(this,BuyPointSearchActivity.class);
+        startActivity(intent);
+    }
+    public void trainStationSearch(View view){
+        Intent intent = new Intent(this,TrainStationSearchActivity.class);
         startActivity(intent);
     }
 
@@ -140,5 +208,74 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(LIFECYCLE_CALLBACKS_TEXT_START, start);
         outState.putString(LIFECYCLE_CALLBACKS_TEXT_END, end);
         outState.putString(LIFECYCLE_CALLBACKS_TEXT_TIME, time);
+    }
+    //选择出发城市
+    public void selectStartCityList(){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.city_listview);
+        dialog.setTitle(R.string.select_city);
+        listView = (ListView) dialog.findViewById(R.id.city_list);
+        String[] values = new String[] { "北京",
+                "上海", "武汉",
+                "杭州", "荆门",
+                "深圳", "广州",
+                "天津" };
+        dialog.show();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,values);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                int itemPosition = position;
+                String itemValue = (String) listView.getItemAtPosition(position);
+                startEditText.setText(itemValue);
+
+                // Show Alert
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : "
+                                + itemValue, Toast.LENGTH_LONG).show();
+                dialog.cancel();
+
+            }
+
+        });
+    }
+    public void selectEndCityList(){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.city_listview);
+        dialog.setTitle(R.string.select_city);
+        listView = (ListView) dialog.findViewById(R.id.city_list);
+        String[] values = new String[] { "北京",
+                "上海", "武汉",
+                "杭州", "荆门",
+                "深圳", "广州",
+                "天津" };
+        dialog.show();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                int itemPosition = position;
+                String itemValue = (String) listView.getItemAtPosition(position);
+                endEditText.setText(itemValue);
+
+                // Show Alert
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : "
+                                + itemValue, Toast.LENGTH_LONG).show();
+                dialog.cancel();
+
+            }
+
+        });
     }
 }
