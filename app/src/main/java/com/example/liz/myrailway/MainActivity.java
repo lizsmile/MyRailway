@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.net.RouteInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         startEditText = (EditText) findViewById(R.id.editTextStart);
         endEditText = (EditText) findViewById(R.id.editTextEnd);
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void trainStationSearch(View view){
-        Intent intent = new Intent(this,TrainStationSearchActivity.class);
+        Intent intent = new Intent(this,RouteActivity.class);
         startActivity(intent);
     }
 

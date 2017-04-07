@@ -110,7 +110,7 @@
         android:onClick="buyPointSearch"/>
 
     <Button
-        android:text="列车站点查询"
+        android:text="列车站点路线查询"
         android:layout_width="352dp"
         android:layout_height="61dp"
         android:layout_marginTop="8dp"

@@ -29,11 +29,13 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ZTT3GHU4AY0fKI74fn5adfnW0QNFEP7x" />
 
-        <activity android:name=".TrainNoSearchActivity" >
-        </activity>
+        <activity android:name=".TrainNoSearchActivity" />
         <activity android:name=".BuyPointSearchActivity" />
-        <activity android:name=".TrainStationSearchActivity"></activity>
+        <activity android:name=".RouteActivity"></activity>
     </application>
 
 </manifest>
