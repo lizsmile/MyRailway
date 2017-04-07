@@ -143,28 +143,6 @@ public class ResultActivity extends AppCompatActivity implements ResultAdapter.R
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    //菜单项被选中
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-//            case R.id.action_refresh:
-//                adapter.setTrainData(null);
-//                recyclerView.setAdapter(adapter);
-//                return true;
-            case R.id.action_settings:
-                Toast.makeText(ResultActivity.this, "print settings", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void yesterdaySearch(View view) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

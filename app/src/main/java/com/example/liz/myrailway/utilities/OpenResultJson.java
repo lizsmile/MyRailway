@@ -94,7 +94,7 @@ public class OpenResultJson {
             }
 
 
-            parsedTrainData[i] = "列车序号:"+trainNo+" 列车类型:"+trainType+"\n\n"+"起始站:"+startSta+" 起始站类型:"+"\n\n"+startStaType+"终点站:"+endSta+" 终点站类型:"+endStaType+"\n\n"+"发车时间:"+startTime+" 到站时间:"+endTime+" 行驶时间:"+runTime+"\n\n"+ Arrays.toString(priceGroup);
+            parsedTrainData[i] = "列车序号:"+trainNo+" 列车类型:"+trainType+"\n\n"+"起始站:"+startSta+" 起始站类型:"+startStaType+"\n\n"+"终点站:"+endSta+" 终点站类型:"+endStaType+"\n\n"+"发车时间:"+startTime+" 到站时间:"+endTime+" 行驶时间:"+runTime+"\n\n"+ Arrays.toString(priceGroup);
         }
 
         return parsedTrainData;
